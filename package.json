@@ -17,8 +17,22 @@
         "command": "typespector.open",
         "title": "Open Typespector",
         "category": "Typespector"
+      },
+      {
+        "command": "typespector.getInfo",
+        "title": "Get Type Info",
+        "category": "Typespector"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+            "command": "typespector.getInfo",
+            "group": "typespector",
+            "when": "editorLangId == 'typescript' || editorLangId == 'javascript' || editorLangId == 'typescriptreact' || editorLangId == 'javascriptreact'"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -27,7 +41,7 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "dev": "code --extensionDevelopmentPath=."
+    "dev": "code --extensionDevelopmentPath=~/Projects/typespector"
   },
   "devDependencies": {
     "@types/vscode": "^1.96.0",
