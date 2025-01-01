@@ -13,10 +13,35 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('typespector.helloWorld', () => {
+	const disposable = vscode.commands.registerCommand('typespector.open', async () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from typespector!');
+		// vscode.window.showInformationMessage('Hello World from typespector!');
+		// Get the active text editor
+		const activeEditor = vscode.window.activeTextEditor;
+
+		// First move the current editor to the lower group
+		if (activeEditor) {
+			await vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
+		}
+
+		// Then create the webview panel in the top group
+		const panel = vscode.window.createWebviewPanel(
+			'typespector',
+			'Typespector',
+			vscode.ViewColumn.One,
+			{
+				enableScripts: true
+			}
+		);
+
+		// Focus back on the editor
+		if (activeEditor) {
+			await vscode.window.showTextDocument(activeEditor.document, {
+				viewColumn: vscode.ViewColumn.Two,
+				preserveFocus: false
+			});
+		}
 	});
 
 	context.subscriptions.push(disposable);

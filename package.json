@@ -14,8 +14,9 @@
   "contributes": {
     "commands": [
       {
-        "command": "typespector.helloWorld",
-        "title": "Hello World"
+        "command": "typespector.open",
+        "title": "Open Typespector",
+        "category": "Typespector"
       }
     ]
   },
@@ -25,7 +26,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "dev": "code --extensionDevelopmentPath=."
   },
   "devDependencies": {
     "@types/vscode": "^1.96.0",

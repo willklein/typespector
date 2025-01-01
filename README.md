@@ -1,6 +1,6 @@
-# typespector README
+# Typespector README
 
-This is the README for your extension "typespector". After writing up a brief description, we recommend including the following sections.
+> Inspect and explore your TypeScript types
 
 ## Features
 
