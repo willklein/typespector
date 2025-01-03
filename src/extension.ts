@@ -9,6 +9,16 @@ const content = {
   documentation: "",
 };
 
+// Add this helper function at the top of your file, after the imports
+function escapeHtml(unsafe: string): string {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -59,9 +69,9 @@ export function activate(context: vscode.ExtensionContext) {
 					<body>
 						<h1>Typespector</h1>
 						<div id="content">
-							<p>${content.displayText ? content.displayText : ""}</p>
+							<p>${escapeHtml(content.displayText ?? "")}</p>
 
-							<p>${content.documentation ? content.documentation : ""}</p>
+							<p>${escapeHtml(content.documentation ?? "")}</p>
 						</div>
 					</body>
 				</html>
