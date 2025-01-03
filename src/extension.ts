@@ -3,6 +3,12 @@
 import * as vscode from "vscode";
 import type * as ts from "typescript";
 
+const content = {
+  message: "",
+  displayText: "",
+  documentation: "",
+};
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -53,7 +59,9 @@ export function activate(context: vscode.ExtensionContext) {
 					<body>
 						<h1>Typespector</h1>
 						<div id="content">
-							<!-- Content will go here -->
+							<p>${content.displayText ? content.displayText : ""}</p>
+
+							<p>${content.documentation ? content.documentation : ""}</p>
 						</div>
 					</body>
 				</html>
@@ -70,7 +78,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   const getInfoCommand = vscode.commands.registerCommand(
     "typespector.getInfo",
-    // () => {
     async () => {
       const { activeTextEditor } = vscode.window;
 
@@ -109,12 +116,24 @@ export function activate(context: vscode.ExtensionContext) {
         quickInfoResponse?.body?.displayString
       );
 
+      if (quickInfoResponse?.body?.displayString) {
+        content.displayText = quickInfoResponse?.body?.displayString;
+      } else {
+        content.displayText = "";
+      }
+
       const documentation = quickInfoResponse?.body?.documentation;
 
       const text =
         typeof documentation === "string"
           ? documentation
           : documentation?.map((doc) => doc.text).join("");
+
+      if (text) {
+        content.documentation = text;
+      } else {
+        content.documentation = "";
+      }
 
       console.log("Typespector response.body.documentation:", text);
     }
